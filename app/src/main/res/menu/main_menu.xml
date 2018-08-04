@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_maps"
+        android:title="maps"
+        app:showAsAction="always"
+        app:ico_color="@android:color/white"
+        app:ico_icon="gmd_map"
+        app:ico_size="18dp"/>
+
+</menu>

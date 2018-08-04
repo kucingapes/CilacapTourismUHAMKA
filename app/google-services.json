@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "931243688954",
+    "firebase_url": "https://cilacaptourismuhamka.firebaseio.com",
+    "project_id": "cilacaptourismuhamka",
+    "storage_bucket": "cilacaptourismuhamka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931243688954:android:689d6d28bec1ad55",
+        "android_client_info": {
+          "package_name": "sejarah.uhamka.cilacaptourism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931243688954-stpur2q6bi5mcrreg6ec2dhdi7o0nfa0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sejarah.uhamka.cilacaptourism",
+            "certificate_hash": "80ed2ea420a8c6ae7ebbc873752ae06f43423d70"
+          }
+        },
+        {
+          "client_id": "931243688954-0ddtnusdnss9n1bbf165u5ca8m2ojj1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpzX6a5DWh3VbRLsMYBykjdSMQfIXaDLs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931243688954-0ddtnusdnss9n1bbf165u5ca8m2ojj1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931243688954:android:b5d5489171ad4475",
+        "android_client_info": {
+          "package_name": "utsman.kucingapes.cilacaptourismuhamka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931243688954-8hskp89t4mil2m9bqqeugc9ve83v68ej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "utsman.kucingapes.cilacaptourismuhamka",
+            "certificate_hash": "80ed2ea420a8c6ae7ebbc873752ae06f43423d70"
+          }
+        },
+        {
+          "client_id": "931243688954-0ddtnusdnss9n1bbf165u5ca8m2ojj1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpzX6a5DWh3VbRLsMYBykjdSMQfIXaDLs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931243688954-0ddtnusdnss9n1bbf165u5ca8m2ojj1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
