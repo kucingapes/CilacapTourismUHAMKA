@@ -1,8 +1,4 @@
 <resources>
-    <string name="app_name">CilacapTourism</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="app_name">Wisata Terpadu Cilacap</string>
     <string name="api_key">AIzaSyC1FumnI809uTXdHxZwzAt1arNYO3Rmyd0</string>
 </resources>

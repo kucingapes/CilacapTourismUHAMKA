@@ -8,6 +8,7 @@ public class Model {
     private String lat;
     private String lng;
     private String id;
+    private String body;
 
     public Model(){
     }
@@ -24,7 +25,7 @@ public class Model {
         this.lng = lng;
     }
 
-    public Model(String name, String address, String img, String regional, String lat, String lng, String id) {
+    public Model(String name, String address, String img, String regional, String lat, String lng, String id, String body) {
         this.name = name;
         this.address = address;
         this.img = img;
@@ -32,6 +33,7 @@ public class Model {
         this.lat = lat;
         this.lng = lng;
         this.id = id;
+        this.body = body;
     }
 
     public Model(String regional) {

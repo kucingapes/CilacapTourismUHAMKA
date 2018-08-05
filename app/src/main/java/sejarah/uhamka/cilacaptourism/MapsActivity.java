@@ -1,13 +1,10 @@
 package sejarah.uhamka.cilacaptourism;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,19 +12,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
-import com.mikepenz.iconics.context.IconicsContextWrapper;
-import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -42,6 +34,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -92,15 +86,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void addMarker(final Double lat, final Double lng, final String title, String regional, final String id) {
 
-        LatLng marker = new LatLng(lat, lng);
+        final LatLng marker = new LatLng(lat, lng);
         final MarkerCluster markerCluster = new MarkerCluster(title, marker, id, regional);
 
         clusterManager.addItem(markerCluster);
-        clusterManager.setRenderer(new MarkerClusterRender(this, gmap, clusterManager));
+        MarkerClusterRender clusterRender = new MarkerClusterRender(this, gmap, clusterManager);
+        clusterManager.setRenderer(clusterRender);
 
-
-        InfoWindowAdapter infoWindowAdapter = new InfoWindowAdapter(getApplicationContext());
-        gmap.setInfoWindowAdapter(infoWindowAdapter);
         gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 7));
         gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -113,5 +105,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

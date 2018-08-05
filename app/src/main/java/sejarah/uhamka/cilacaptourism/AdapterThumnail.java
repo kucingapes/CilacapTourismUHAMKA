@@ -40,7 +40,7 @@ public class AdapterThumnail extends RecyclerView.Adapter<AdapterThumnail.Holder
             public void onClick(View view) {
                 Intent intent = new Intent(context, FullPhoto.class);
                 intent.putExtra("position", i);
-                intent.putExtra("id", photos.getId());
+                intent.putExtra("id", photos.getTitle());
                 context.startActivity(intent);
             }
         });

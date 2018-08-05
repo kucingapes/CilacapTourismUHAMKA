@@ -2,15 +2,12 @@ package sejarah.uhamka.cilacaptourism;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,17 +20,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
-import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.mikepenz.iconics.utils.IconicsMenuInflaterUtil;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.DimenHolder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
@@ -42,71 +36,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         List<Model> modelList = new ArrayList<>();
-        List<Model> list = new ArrayList<>();
-
-
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        Adapter adapter = new Adapter(modelList, getApplicationContext());
+        AdapterList adapterList = new AdapterList(modelList, getApplicationContext());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         LayoutMarginDecoration layoutMargin = new LayoutMarginDecoration(20);
         layoutMargin.setPadding(recyclerView, 20);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(layoutMargin);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapterList);
 
-        addData(adapter, modelList);
-
-        setupDrawer(modelList, adapter);
+        addData(adapterList, modelList);
+        setupDrawer(modelList, adapterList);
     }
 
-    /*@Override
+    @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
-    }*/
+    }
 
-
-    private void setupDrawer(final List<Model> modelList, final Adapter adapter) {
+    private void setupDrawer(final List<Model> modelList, final AdapterList adapterList) {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SecondaryDrawerItem drawerItem1 = new SecondaryDrawerItem().withIdentifier(1).withName("Cilacap Selatan");
-        SecondaryDrawerItem drawerItem2 = new SecondaryDrawerItem().withIdentifier(2).withName("Cilacap Tengah");
+        DividerDrawerItem dividerDrawerItem = new DividerDrawerItem();
 
-        ExpandableDrawerItem expandableDrawerItem = new ExpandableDrawerItem().withIdentifier(1000).withName("Regional")
+        SecondaryDrawerItem drawerItem1 = new SecondaryDrawerItem()
+                .withIdentifier(1)
+                .withIcon(GoogleMaterial.Icon.gmd_pin_drop)
+                .withName("Cilacap Selatan");
+
+        SecondaryDrawerItem drawerItem2 = new SecondaryDrawerItem()
+                .withIdentifier(2)
+                .withIcon(GoogleMaterial.Icon.gmd_pin_drop)
+                .withName("Cilacap Tengah");
+
+        ExpandableDrawerItem expandableDrawerItem = new ExpandableDrawerItem()
+                .withIdentifier(1000)
+                .withIcon(GoogleMaterial.Icon.gmd_pin_drop)
+                .withName("Regional Cilacap")
                 .withSubItems(drawerItem1, drawerItem2);
+
+        PrimaryDrawerItem itemAll = new PrimaryDrawerItem()
+                .withIdentifier(20)
+                .withIcon(GoogleMaterial.Icon.gmd_place)
+                .withName("Semua Lokasi");
+
+        PrimaryDrawerItem itemFav = new PrimaryDrawerItem()
+                .withIdentifier(21)
+                .withIcon(GoogleMaterial.Icon.gmd_favorite)
+                .withName("Favorit");
+
+        PrimaryDrawerItem itemMaps = new PrimaryDrawerItem()
+                .withIdentifier(22)
+                .withIcon(GoogleMaterial.Icon.gmd_map)
+                .withName("Peta");
 
         Drawer drawer = new DrawerBuilder()
                 .withActivity(MainActivity.this)
                 .withToolbar(toolbar)
                 .withHeader(R.layout.header)
                 .withHeaderHeight(DimenHolder.fromDp(200))
-                .addDrawerItems(expandableDrawerItem)
+                .addDrawerItems(itemAll,
+                        expandableDrawerItem,
+                        itemMaps,
+                        dividerDrawerItem,
+                        itemFav)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem.getIdentifier() == 1000) {
                             List<Model> filterList = unfilter(modelList);
-                            adapter.setFilter(filterList);
-                            adapter.notifyDataSetChanged();
+                            adapterList.setFilter(filterList);
+                            adapterList.notifyDataSetChanged();
                         } if (drawerItem.getIdentifier() == 1) {
                             List<Model> filterList = filter(modelList, "Cilacap Selatan");
-                            adapter.setFilter(filterList);
-                            adapter.notifyDataSetChanged();
+                            adapterList.setFilter(filterList);
+                            adapterList.notifyDataSetChanged();
                         } if (drawerItem.getIdentifier() == 2) {
                             List<Model> filterList = filter(modelList, "Cilacap Tengah");
-                            adapter.setFilter(filterList);
-                            adapter.notifyDataSetChanged();
+                            adapterList.setFilter(filterList);
+                            adapterList.notifyDataSetChanged();
+                        } if (drawerItem.getIdentifier() == 20) {
+                            List<Model> filterList = unfilter(modelList);
+                            adapterList.setFilter(filterList);
+                            adapterList.notifyDataSetChanged();
+                        }
+
+                        if (drawerItem.getIdentifier() == 21) {
+                            startActivity(new Intent(getApplicationContext(), FavoriteList.class));
+                        } if (drawerItem.getIdentifier() == 22) {
+                            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                         }
                         return false;
                     }
@@ -135,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         return new ArrayList<>(models);
     }
 
-    private void addData(final Adapter adapter, final List<Model> modelList) {
+    private void addData(final AdapterList adapterList, final List<Model> modelList) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("data");
         reference.addValueEventListener(new ValueEventListener() {
@@ -150,10 +178,11 @@ public class MainActivity extends AppCompatActivity {
                     String id = snapshot.child("id").getValue(String.class);
                     String lat = snapshot.child("lat").getValue(String.class);
                     String lng = snapshot.child("lng").getValue(String.class);
+                    String body = snapshot.child("keterangan").getValue(String.class);
 
-                    Model model = new Model(title, address, image, regional, lat, lng, id);
+                    Model model = new Model(title, address, image, regional, lat, lng, id, body);
                     modelList.add(model);
-                    adapter.notifyDataSetChanged();
+                    adapterList.notifyDataSetChanged();
                 }
             }
 
@@ -172,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_maps) {
-            startActivity(new Intent(MainActivity.this, MapsActivity.class));
+        if (item.getItemId() == R.id.menu_search) {
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

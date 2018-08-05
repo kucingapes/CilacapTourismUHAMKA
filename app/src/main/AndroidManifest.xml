@@ -28,8 +28,12 @@
             android:name=".MapsActivity"
             android:label="Peta" />
         <activity android:name=".DetailActivity" />
-        <activity android:name=".FullPhoto"
-            android:theme="@style/AppTheme.Noaction.Fullscreen"/>
+        <activity
+            android:name=".FullPhoto"
+            android:theme="@style/AppTheme.Noaction.Fullscreen" />
+        <activity android:name=".FavoriteList"
+            android:label="Lokasi Favorit"/>
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>
