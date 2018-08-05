@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -23,8 +23,12 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
+import sejarah.uhamka.cilacaptourism.Adapter.AdapterList;
+import sejarah.uhamka.cilacaptourism.Model.ModelList;
+import sejarah.uhamka.cilacaptourism.R;
+
 public class SearchActivity extends AppCompatActivity {
-    private List<Model> modelList = new ArrayList<>();
+    private List<ModelList> modelList = new ArrayList<>();
     private AdapterList adapterList;
 
     @Override
@@ -67,8 +71,8 @@ public class SearchActivity extends AppCompatActivity {
                     String lng = snapshot.child("lng").getValue(String.class);
                     String body = snapshot.child("keterangan").getValue(String.class);
 
-                    Model model = new Model(title, address, image, regional, lat, lng, id, body);
-                    modelList.add(model);
+                    ModelList modelList = new ModelList(title, address, image, regional, lat, lng, id, body);
+                    SearchActivity.this.modelList.add(modelList);
                     adapterList.notifyDataSetChanged();
                 }
             }
@@ -80,13 +84,13 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private List<Model> filter(List<Model> models, String query) {
+    private List<ModelList> filter(List<ModelList> modelLists, String query) {
         query = query.toLowerCase();
-        final List<Model> filteredModelList = new ArrayList<>();
-        for (Model model : models) {
-            final String text = model.getName().toLowerCase();
+        final List<ModelList> filteredModelList = new ArrayList<>();
+        for (ModelList modelList : modelLists) {
+            final String text = modelList.getName().toLowerCase();
             if (text.contains(query)) {
-                filteredModelList.add(model);
+                filteredModelList.add(modelList);
             }
         }
         return filteredModelList;
@@ -106,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                List<Model> filterList = filter(modelList, s);
+                List<ModelList> filterList = filter(modelList, s);
                 adapterList.setFilter(filterList);
                 adapterList.notifyDataSetChanged();
                 return true;
@@ -122,7 +126,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onQueryTextChange(String s) {
-        List<Model> filterList = filter(modelList, s);
+        List<ModelList> filterList = filter(modelList, s);
         AdapterList adapterList = new AdapterList(modelList, getApplicationContext());
         adapterList.setFilter(filterList);
         return true;

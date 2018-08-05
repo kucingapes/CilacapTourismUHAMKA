@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,6 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
+
+import sejarah.uhamka.cilacaptourism.Cluster.MarkerCluster;
+import sejarah.uhamka.cilacaptourism.Cluster.MarkerClusterRender;
+import sejarah.uhamka.cilacaptourism.Model.ModelList;
+import sejarah.uhamka.cilacaptourism.R;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -45,7 +50,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         gmap.setOnCameraIdleListener(clusterManager);
 
 
-        final ArrayList<Model> markers = new ArrayList<>();
+        final ArrayList<ModelList> markers = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("data");
         reference.addValueEventListener(new ValueEventListener() {
@@ -66,8 +71,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Double lng = Double.parseDouble(longitude);
                     addMarker(lat, lng, title, regional, identifier);
 
-                    //Model model = new Model(latitude, longitude, id);
-                    markers.add(new Model(latitude, longitude, identifier));
+                    //ModelList model = new ModelList(latitude, longitude, id);
+                    markers.add(new ModelList(latitude, longitude, identifier));
                     //addmarker(markers);
 
                     /*LatLng marker = new LatLng(lat, lng);
@@ -93,7 +98,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MarkerClusterRender clusterRender = new MarkerClusterRender(this, gmap, clusterManager);
         clusterManager.setRenderer(clusterRender);
 
-        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 7));
+        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 8));
         gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {

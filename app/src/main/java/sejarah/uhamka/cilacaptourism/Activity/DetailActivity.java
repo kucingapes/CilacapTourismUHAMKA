@@ -1,14 +1,11 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,16 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -42,6 +36,12 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sejarah.uhamka.cilacaptourism.Adapter.AdapterThumnail;
+import sejarah.uhamka.cilacaptourism.Model.ModelList;
+import sejarah.uhamka.cilacaptourism.Model.ModelPhotos;
+import sejarah.uhamka.cilacaptourism.R;
+import sejarah.uhamka.cilacaptourism.SharedPreference.SharedPref;
 
 public class DetailActivity extends AppCompatActivity {
     private List<ModelPhotos> photosList = new ArrayList<>();
@@ -139,27 +139,30 @@ public class DetailActivity extends AppCompatActivity {
                              String title, String regional, String address,
                              String image, String id, String lat, String lng, String body) {
 
-        Model model = new Model(title, address, image, regional, lat, lng, id, body);
+        ModelList modelList = new ModelList(title, address, image, regional, lat, lng, id, body);
 
         /* ngecek apakah itemnya udeh ada di favorit ape belum */
-        if (json != null && json.contains(title)) { // andaikata udah ada
+        if (json != null && json.contains(lng)) { // andaikata udah ada
             actionButton.setImageResource(R.drawable.ic_favorite_border);
-            Toast.makeText(getApplicationContext(), "dihapus", Toast.LENGTH_SHORT).show();
             SharedPref sharedPref = new SharedPref();
-            int position = sharedPref.setIndex(getApplicationContext(), title);
+            int position = sharedPref.setIndex(getApplicationContext(), lng);
             sharedPref.removeFavorite(getApplicationContext(), position); // maka metodenya adalah remove item
-            sharedPref.removeIndex(getApplicationContext(), title); // nah ini remove string single nya buat acuan posisi
+            sharedPref.removeIndex(getApplicationContext(), lng); // nah ini remove string single nya buat acuan posisi
             actionButton.hide();
             actionButton.show();
+            Snackbar.make(findViewById(R.id.coordinator),"Dihapus dari favorit", Snackbar.LENGTH_SHORT).show();
+            actionButton.setEnabled(false);
 
         } else { // nah kalau belom
             actionButton.setImageResource(R.drawable.ic_favorite);
             SharedPref sharedPref = new SharedPref();
-            sharedPref.addFavorite(getApplicationContext(), model); // ya tambahin deh
-            sharedPref.addIndex(getApplicationContext(), title);
-            Toast.makeText(getApplicationContext(), "ditambahkan", Toast.LENGTH_SHORT).show();
+            sharedPref.addFavorite(getApplicationContext(), modelList); // ya tambahin deh
+            sharedPref.addIndex(getApplicationContext(), lng);
             actionButton.hide();
             actionButton.show();
+            Snackbar.make(findViewById(R.id.coordinator),"Lokasi difavoritkan", Snackbar.LENGTH_SHORT).show();
+            actionButton.setEnabled(false);
+
         }
 
     }
@@ -168,7 +171,7 @@ public class DetailActivity extends AppCompatActivity {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                if (scrollView.getChildAt(0).getBottom() <= (scrollView.getHeight() + scrollView.getScrollY())+100) {
+                if (scrollView.getChildAt(0).getBottom() <= (scrollView.getHeight() + scrollView.getScrollY())) {
                     actionButton.hide();
                 } else {
                     actionButton.show();

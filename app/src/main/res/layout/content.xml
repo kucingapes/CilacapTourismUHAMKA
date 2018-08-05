@@ -5,7 +5,7 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical"
-    app:ignore="NamespaceTypo">
+    app:ignore="NamespaceTypo,UnusedAttribute">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -38,7 +38,8 @@
                     android:id="@+id/address_content"
                     android:text="alamat"
                     android:layout_marginTop="5dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:fontFamily="@font/roboto_medium"/>
 
             </LinearLayout>
 
@@ -63,7 +64,8 @@
                     android:id="@+id/regional_content"
                     android:text="regional"
                     android:layout_marginBottom="5dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:fontFamily="@font/roboto_medium"/>
 
             </LinearLayout>
 
@@ -98,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/map"
-            tools:context=".MapsActivity"
+            tools:context=".Activity.MapsActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             map:liteMode="true"/>
 
@@ -117,7 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:id="@+id/body_content"/>
+            android:id="@+id/body_content"
+            android:fontFamily="@font/roboto_medium" />
 
     </android.support.v7.widget.CardView>
 

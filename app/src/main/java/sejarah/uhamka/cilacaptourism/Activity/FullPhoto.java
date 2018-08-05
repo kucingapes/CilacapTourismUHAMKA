@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +12,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
-import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sejarah.uhamka.cilacaptourism.Adapter.AdapterPhotos;
+import sejarah.uhamka.cilacaptourism.Model.ModelPhotos;
+import sejarah.uhamka.cilacaptourism.R;
 
 public class FullPhoto extends AppCompatActivity {
     private List<ModelPhotos> photosList = new ArrayList<>();

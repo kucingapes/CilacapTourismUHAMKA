@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Cluster;
 
 import android.content.Context;
 import com.google.android.gms.maps.GoogleMap;

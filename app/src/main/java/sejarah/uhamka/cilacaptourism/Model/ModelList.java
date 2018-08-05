@@ -1,6 +1,6 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Model;
 
-public class Model {
+public class ModelList {
     private String name;
     private String address;
     private String img;
@@ -10,22 +10,12 @@ public class Model {
     private String id;
     private String body;
 
-    public Model(){
-    }
-
-    public Model(String name, String address, String img, String regional) {
-        this.name = name;
-        this.address = address;
-        this.img = img;
-        this.regional = regional;
-    }
-
-    public Model(String lat, String lng, String identifier) {
+    public ModelList(String lat, String lng, String identifier) {
         this.lat = lat;
         this.lng = lng;
     }
 
-    public Model(String name, String address, String img, String regional, String lat, String lng, String id, String body) {
+    public ModelList(String name, String address, String img, String regional, String lat, String lng, String id, String body) {
         this.name = name;
         this.address = address;
         this.img = img;
@@ -36,7 +26,7 @@ public class Model {
         this.body = body;
     }
 
-    public Model(String regional) {
+    public ModelList(String regional) {
         this.regional = regional;
     }
 

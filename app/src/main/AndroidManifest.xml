@@ -16,7 +16,7 @@
             android:value="@string/api_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:theme="@style/AppTheme.Noaction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapsActivity"
+            android:name=".Activity.MapsActivity"
             android:label="Peta" />
-        <activity android:name=".DetailActivity" />
+        <activity android:name=".Activity.DetailActivity" />
         <activity
-            android:name=".FullPhoto"
+            android:name=".Activity.FullPhoto"
             android:theme="@style/AppTheme.Noaction.Fullscreen" />
-        <activity android:name=".FavoriteList"
+        <activity android:name=".Activity.FavoriteList"
             android:label="Lokasi Favorit"/>
-        <activity android:name=".SearchActivity"/>
+        <activity android:name=".Activity.SearchActivity"/>
     </application>
 
 </manifest>

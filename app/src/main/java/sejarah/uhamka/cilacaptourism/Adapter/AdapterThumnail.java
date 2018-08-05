@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import sejarah.uhamka.cilacaptourism.Activity.FullPhoto;
+import sejarah.uhamka.cilacaptourism.Model.ModelPhotos;
+import sejarah.uhamka.cilacaptourism.R;
 
 public class AdapterThumnail extends RecyclerView.Adapter<AdapterThumnail.Holder> {
     private List<ModelPhotos> modelPhotos;
@@ -34,6 +38,7 @@ public class AdapterThumnail extends RecyclerView.Adapter<AdapterThumnail.Holder
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int i) {
         final ModelPhotos photos = modelPhotos.get(i);
+        holder.setIsRecyclable(false);
         Glide.with(context).load(photos.getImg()).into(holder.imagePhotos);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

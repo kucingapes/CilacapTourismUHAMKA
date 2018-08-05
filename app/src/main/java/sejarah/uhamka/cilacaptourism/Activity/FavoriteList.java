@@ -1,4 +1,4 @@
-package sejarah.uhamka.cilacaptourism;
+package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,11 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import sejarah.uhamka.cilacaptourism.Adapter.AdapterList;
+import sejarah.uhamka.cilacaptourism.Model.ModelList;
+import sejarah.uhamka.cilacaptourism.R;
+import sejarah.uhamka.cilacaptourism.SharedPreference.SharedPref;
 
 public class FavoriteList extends AppCompatActivity {
 
@@ -40,7 +45,7 @@ public class FavoriteList extends AppCompatActivity {
     }
 
     private void addData(RecyclerView recyclerView) {
-        List<Model> itemList;
+        List<ModelList> itemList;
         AdapterList adapterList;
 
         SharedPref sharedPref = new SharedPref();

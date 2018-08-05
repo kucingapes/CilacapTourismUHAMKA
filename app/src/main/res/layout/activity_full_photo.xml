@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FullPhoto"
+    tools:context=".Activity.FullPhoto"
     android:background="#3e3e3e">
 
     <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
