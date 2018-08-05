@@ -11,6 +11,11 @@
         android:scaleType="centerCrop"
         android:id="@+id/img"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="#7b0835c7"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

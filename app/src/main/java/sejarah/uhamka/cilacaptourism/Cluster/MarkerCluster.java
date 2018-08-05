@@ -1,14 +1,13 @@
 package sejarah.uhamka.cilacaptourism.Cluster;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class MarkerCluster implements ClusterItem {
 
     final String title;
-    final LatLng latLng;
-    final String id;
+    private final LatLng latLng;
+    private final String id;
     final String snippet;
 
     public MarkerCluster(String title, LatLng latLng, String id, String snippet) {

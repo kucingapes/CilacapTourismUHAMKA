@@ -56,9 +56,9 @@ public class AdapterThumnail extends RecyclerView.Adapter<AdapterThumnail.Holder
         return modelPhotos.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    class Holder extends RecyclerView.ViewHolder {
         ImageView imagePhotos;
-        public Holder(@NonNull View itemView) {
+        Holder(@NonNull View itemView) {
             super(itemView);
             imagePhotos = itemView.findViewById(R.id.item_photo);
         }

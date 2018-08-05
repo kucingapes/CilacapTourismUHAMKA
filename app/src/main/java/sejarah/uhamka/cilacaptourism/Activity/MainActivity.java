@@ -2,9 +2,12 @@ package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +37,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         List<ModelList> modelList = new ArrayList<>();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         AdapterList adapterList = new AdapterList(modelList, getApplicationContext());
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(layoutMargin);
 
         addData(adapterList, modelList, recyclerView);
-        setupDrawer(modelList, adapterList);
+        setupDrawer(modelList, adapterList, toolbar);
     }
 
     @Override
@@ -73,17 +76,15 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
     }
 
-    private void setupDrawer(final List<ModelList> modelList, final AdapterList adapterList) {
+    private void setupDrawer(final List<ModelList> modelList, final AdapterList adapterList, Toolbar toolbar) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         @SuppressLint("InflateParams")
         View dialogView = inflater.inflate(R.layout.about_layout, null);
         dialogBuilder.setView(dialogView);
         final AlertDialog alertDialog = dialogBuilder.create();
+        setupViewDialog(dialogView);
 
-
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         DividerDrawerItem dividerDrawerItem = new DividerDrawerItem();
 
@@ -241,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                         }
                         if (drawerItem.getIdentifier() == 23) {
-                            List<ModelList> filterList = filterTrain(modelList, "Stasiun");
+                            List<ModelList> filterList = filterTrain(modelList);
                             adapterList.setFilter(filterList);
                             adapterList.notifyDataSetChanged();
                         }
@@ -256,8 +257,103 @@ public class MainActivity extends AppCompatActivity {
 
         View view = drawer.getHeader().getRootView();
         ImageView img = view.findViewById(R.id.img);
-        Glide.with(view).load("https://source.unsplash.com/n8HAQ26GnMc").into(img);
+        setupImgHeader(view, img);
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setupViewDialog(final View dialogView) {
+        final ImageView imgAbout = dialogView.findViewById(R.id.header_about);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("other/imgheader");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String imgUrl = dataSnapshot.getValue(String.class);
+                Glide.with(dialogView).load(imgUrl).into(imgAbout);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        dialogView.findViewById(R.id.link_prodi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String data = "https://fkip.uhamka.ac.id/pendidikan-sejarah";
+                setupOpenLink(data);
+            }
+        });
+        dialogView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("other/email");
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String email = dataSnapshot.getValue(String.class);
+                        setupEmail(email);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
+        String versionName = "";
+        try {
+            versionName = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        TextView nameApp = dialogView.findViewById(R.id.name_app);
+        nameApp.setText("Wisata Cilacap Terpadu (versi "+versionName+")");
+    }
+
+    private void setupEmail(String email) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:" + email));
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Aplikasi Wisata Cilacap");
+        startActivity(intent);
+    }
+
+    private void setupImgHeader(final View view, final ImageView img) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("other/imgheader");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String imgUrl = dataSnapshot.getValue(String.class);
+                Glide.with(view).load(imgUrl).into(img);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setupOpenLink(String data) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
+        builder.addDefaultShareMenuItem();
+        builder.setShowTitle(true);
+
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(MainActivity.this, Uri.parse(data));
     }
 
     private List<ModelList> filter(List<ModelList> modelLists, String query) {
@@ -272,12 +368,12 @@ public class MainActivity extends AppCompatActivity {
         return filteredModelList;
     }
 
-    private List<ModelList> filterTrain(List<ModelList> modelLists, String query) {
-        query = query.toLowerCase();
+    private List<ModelList> filterTrain(List<ModelList> modelLists) {
+        String train = "Stasiun".toLowerCase();
         final List<ModelList> filteredModelList = new ArrayList<>();
         for (ModelList modelList : modelLists) {
             final String text = modelList.getName().toLowerCase();
-            if (text.contains(query)) {
+            if (text.contains(train)) {
                 filteredModelList.add(modelList);
             }
         }

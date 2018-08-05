@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Wisata Terpadu Cilacap</string>
+    <string name="app_name">Wisata Cilacap Terpadu</string>
     <string name="api_key">AIzaSyC1FumnI809uTXdHxZwzAt1arNYO3Rmyd0</string>
     <string name="prodi">Pendidikan Sejarah UHAMKA</string>
     <string name="fkip">Fakultas Keguruan dan Ilmu Pendidikan \nUniversitas Muhammadiyah Prof. Dr. HAMKA</string>
+    <string name="fullprodi">Program Studi Pendidikan Sejarah \nFakultas Keguruan dan Ilmu Pendidikan \nUniversitas Muhammdiyah
+    Prof. Dr. HAMKA</string>
 </resources>

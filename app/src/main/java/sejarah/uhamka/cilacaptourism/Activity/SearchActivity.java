@@ -1,6 +1,7 @@
 package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import sejarah.uhamka.cilacaptourism.Adapter.AdapterList;
 import sejarah.uhamka.cilacaptourism.Model.ModelList;
@@ -35,7 +37,9 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         adapterList = new AdapterList(modelList, getApplicationContext());

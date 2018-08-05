@@ -1,6 +1,7 @@
 package sejarah.uhamka.cilacaptourism.Activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import sejarah.uhamka.cilacaptourism.Cluster.MarkerCluster;
 import sejarah.uhamka.cilacaptourism.Cluster.MarkerClusterRender;
@@ -39,7 +41,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        }
 
     }
 
@@ -60,8 +64,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //findViewById(R.id.progressbar).setVisibility(View.GONE);
                     String title = snapshot.child("nama").getValue(String.class);
                     String regional = snapshot.child("region").getValue(String.class);
-                    String address = snapshot.child("alamat").getValue(String.class);
-                    String image = snapshot.child("image/0").getValue(String.class);
                     String latitude = snapshot.child("lat").getValue(String.class);
                     String longitude = snapshot.child("lng").getValue(String.class);
                     String identifier = snapshot.child("id").getValue(String.class);

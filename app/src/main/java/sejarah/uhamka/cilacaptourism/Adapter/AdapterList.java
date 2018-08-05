@@ -80,10 +80,10 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.Holder> {
         modelLists.addAll(filterModelLists);
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    class Holder extends RecyclerView.ViewHolder {
         ImageView imgCard;
         TextView tvTitle, tvRegional;
-        public Holder(@NonNull View itemView) {
+        Holder(@NonNull View itemView) {
             super(itemView);
             imgCard = itemView.findViewById(R.id.img_card);
             tvTitle = itemView.findViewById(R.id.title_card);

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sejarah.uhamka.cilacaptourism">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="sejarah.uhamka.cilacaptourism"
+    tools:ignore="InnerclassSeparator" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,13 +19,7 @@
 
         <activity
             android:name=".Activity.MainActivity"
-            android:theme="@style/AppTheme.Noaction">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.Noaction" />
         <activity
             android:name=".Activity.MapsActivity"
             android:label="Peta" />
@@ -31,9 +27,18 @@
         <activity
             android:name=".Activity.FullPhoto"
             android:theme="@style/AppTheme.Noaction.Fullscreen" />
-        <activity android:name=".Activity.FavoriteList"
-            android:label="Lokasi Favorit"/>
-        <activity android:name=".Activity.SearchActivity"/>
+        <activity
+            android:name=".Activity.FavoriteList"
+            android:label="Lokasi Favorit" />
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".Activity.LauncherActivity"
+            android:theme="@style/AppTheme.Noaction">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
