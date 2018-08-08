@@ -4,6 +4,7 @@
     package="sejarah.uhamka.cilacaptourism"
     tools:ignore="InnerclassSeparator" >
 
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

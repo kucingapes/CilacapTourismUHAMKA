@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,6 +106,10 @@ public class SearchActivity extends AppCompatActivity {
         IconicsMenuInflaterUtil.inflate(getMenuInflater(), this, R.menu.search_menu, menu);
         final MenuItem item = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        LinearLayout searchFrame = searchView.findViewById(R.id.search_edit_frame);
+        ((LinearLayout.LayoutParams) searchFrame.getLayoutParams()).leftMargin = 0;
+
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -120,21 +125,16 @@ public class SearchActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                onBackPressed();
+                return true;
+            }
+        });
         return true;
     }
-
-   /* @Override
-    public boolean onQueryTextSubmit(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        List<ModelList> filterList = filter(modelList, s);
-        AdapterList adapterList = new AdapterList(modelList, getApplicationContext());
-        adapterList.setFilter(filterList);
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

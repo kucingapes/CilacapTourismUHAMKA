@@ -26,6 +26,13 @@ public class ModelList {
         this.body = body;
     }
 
+    public ModelList(String name, String lat, String lng, String id) {
+        this.name = name;
+        this.lat = lat;
+        this.lng = lng;
+        this.id = id;
+    }
+
     public ModelList(String regional) {
         this.regional = regional;
     }

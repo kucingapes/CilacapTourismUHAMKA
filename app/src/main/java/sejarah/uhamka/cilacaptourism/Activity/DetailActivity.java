@@ -1,8 +1,12 @@
 package sejarah.uhamka.cilacaptourism.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -12,11 +16,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +37,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
@@ -78,10 +86,11 @@ public class DetailActivity extends AppCompatActivity {
         gallery.setLayoutManager(layoutManager);
         gallery.addItemDecoration(layoutMargin);
 
+        checkConnection(actionButton);
         setupButton(scrollView, actionButton);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("data/"+id);
+        DatabaseReference myRef = database.getReference("data/" + id);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -124,8 +133,8 @@ public class DetailActivity extends AppCompatActivity {
                 });
 
 
-                for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    for (DataSnapshot data: ds.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    for (DataSnapshot data : ds.getChildren()) {
                         String url = data.getValue(String.class);
                         setupPhotos(gallery, url, id, title);
 
@@ -136,6 +145,46 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+    }
+
+    private void checkConnection(final FloatingActionButton actionButton) {
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    System.out.println("not connected");
+                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator),
+                            "Anda sedang offline, mungkin tidak dapat memuat sebagian data!",
+                            99999);
+                    View view = snackbar.getView();
+                    TextView textView = view.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cloud_off, 0, 0, 0);
+                    textView.setCompoundDrawablePadding(50);
+                    textView.setTextSize(13);
+                    actionButton.setEnabled(false);
+                    snackbar.setAction("OKE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                } else {
+                    actionButton.setEnabled(true);
+                    System.out.println("connected");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
             }
         });
     }
@@ -155,7 +204,7 @@ public class DetailActivity extends AppCompatActivity {
             sharedPref.removeIndex(getApplicationContext(), lng); // nah ini remove string single nya buat acuan posisi
             actionButton.hide();
             actionButton.show();
-            Snackbar.make(findViewById(R.id.coordinator),"Dihapus dari favorit", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.coordinator), "Dihapus dari favorit", Snackbar.LENGTH_SHORT).show();
             actionButton.setEnabled(false);
 
         } else { // nah kalau belom
@@ -165,9 +214,8 @@ public class DetailActivity extends AppCompatActivity {
             sharedPref.addIndex(getApplicationContext(), lng);
             actionButton.hide();
             actionButton.show();
-            Snackbar.make(findViewById(R.id.coordinator),"Lokasi difavoritkan", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.coordinator), "Lokasi difavoritkan", Snackbar.LENGTH_SHORT).show();
             actionButton.setEnabled(false);
-
         }
 
     }

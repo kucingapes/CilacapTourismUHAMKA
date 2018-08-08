@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -288,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 setupOpenLink(data);
             }
         });
+
         dialogView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,13 +320,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView nameApp = dialogView.findViewById(R.id.name_app);
-        nameApp.setText("Wisata Cilacap Terpadu (versi "+versionName+")");
+        nameApp.setText(getResources().getString(R.string.app_name)+" (versi "+versionName+")");
     }
 
     private void setupEmail(String email) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:" + email));
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Aplikasi Wisata Cilacap");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
         startActivity(intent);
     }
 
