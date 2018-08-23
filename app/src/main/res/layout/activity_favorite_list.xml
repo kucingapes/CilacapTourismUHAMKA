@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.FavoriteList">
 
-    <sejarah.uhamka.cilacaptourism.RecyclerConfig.EmptyRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview"/>
@@ -17,7 +17,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:id="@+id/empty"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="120dp"

@@ -31,7 +31,6 @@ import java.util.Objects;
 import sejarah.uhamka.cilacaptourism.Adapter.AdapterList;
 import sejarah.uhamka.cilacaptourism.Model.ModelList;
 import sejarah.uhamka.cilacaptourism.R;
-import sejarah.uhamka.cilacaptourism.RecyclerConfig.EmptyRecyclerView;
 import sejarah.uhamka.cilacaptourism.SharedPreference.SharedPref;
 
 public class FavoriteList extends AppCompatActivity {
@@ -44,7 +43,7 @@ public class FavoriteList extends AppCompatActivity {
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         }
 
-        EmptyRecyclerView recyclerView = findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
         LinearLayout layoutEmpty = findViewById(R.id.empty);
         checkConnection();
 
@@ -53,9 +52,14 @@ public class FavoriteList extends AppCompatActivity {
         layoutMargin.setPadding(recyclerView, 20);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(layoutMargin);
-        recyclerView.setEmptyView(layoutEmpty);
 
         addData(recyclerView);
+
+        if (recyclerView.getVisibility() == View.GONE) {
+            layoutEmpty.setVisibility(View.VISIBLE);
+        } else {
+            layoutEmpty.setVisibility(View.GONE);
+        }
     }
 
     private void checkConnection() {
@@ -109,6 +113,10 @@ public class FavoriteList extends AppCompatActivity {
 
         if (itemList == null) {
             itemList = new ArrayList<>();
+        }
+
+        if (itemList.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
         }
 
         adapterList = new AdapterList(itemList, this);
